@@ -1,0 +1,45 @@
+
+    public static void main(String[] args) {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://api.sendgrid.com/v3/mail/send";
+
+        String jsonPayload = """
+                {
+                    "personalizations": [{
+                        "to": [{"email": "mynguyenduc9x@gmai.com"}],
+                        "subject": "Hello from OkHttp!"
+                    }],
+                    "from": {"email": "nguyenducmy199x@gmail.com"},
+                    "content": [{
+                        "type": "text/plain",
+                        "value": "This is a test email sent using OkHttp and SendGrid!"
+                    }]
+                }
+                """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(
+                        jsonPayload,
+                        MediaType.parse("application/json")
+                ))
+                .addHeader("Authorization", "Bearer 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")
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                System.out.println("Email sent successfully!" + response.body().string());
+            } else {
+                System.out.println("Failed to send email: " + response.body().string());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+// sendgrid: nguyenducmy199x@gmail.com
+              Anguyenducmy10081990a@
